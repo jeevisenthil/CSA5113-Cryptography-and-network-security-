@@ -1,0 +1,50 @@
+import string
+
+ALPHABET = string.ascii_lowercase
+
+def monoalphabetic_encrypt(text, key):
+    key = key.lower()
+    result = ""
+    for char in text:
+        if char.isalpha():
+            is_upper = char.isupper()
+            idx = ALPHABET.index(char.lower())
+            new_char = key[idx]
+            result += new_char.upper() if is_upper else new_char
+        else:
+            result += char
+    return result
+
+def monoalphabetic_decrypt(text, key):
+    key = key.lower()
+    result = ""
+    for char in text:
+        if char.isalpha():
+            is_upper = char.isupper()
+            idx = key.index(char.lower())
+            new_char = ALPHABET[idx]
+            result += new_char.upper() if is_upper else new_char
+        else:
+            result += char
+    return result
+
+# --- User Input ---
+print("=== Monoalphabetic Cipher ===")
+plaintext = input("Enter the text to encrypt: ")
+
+while True:
+    key = input("Enter a 26-letter substitution key (or press Enter for default 'qwertyuiopasdfghjklzxcvbnm'): ").strip()
+    if not key:
+        key = "qwertyuiopasdfghjklzxcvbnm"
+        break
+    if len(key) == 26 and len(set(key.lower())) == 26 and key.isalpha():
+        break
+    print("Invalid key! Must contain exactly 26 unique alphabetic characters.\n")
+
+ciphertext = monoalphabetic_encrypt(plaintext, key)
+decrypted_text = monoalphabetic_decrypt(ciphertext, key)
+
+print("\n--- Results ---")
+print(f"Key Used       : {key}")
+print(f"Encrypted Text : {ciphertext}")
+print(f"Decrypted Text : {decrypted_text}")
